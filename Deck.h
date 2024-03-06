@@ -1,9 +1,3 @@
-/*
-Create a deck class that models a queue using a linked list. This will provide a card from
-the top and return all cards won to the bottom. This needs to be able to tell the player
-how many cards they have left. The player can ask how many cards the computer has left
-in their deck
-*/
 #include "Card.h"
 #include <iostream>
 
@@ -21,6 +15,4 @@ class Deck{
         bool isEmpty(); //Return wether or not the player has any card left
         void printDeck();
         void printTop();
-
-
 };

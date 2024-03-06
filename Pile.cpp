@@ -17,10 +17,13 @@ void Pile::push(Card* card){
 }
 
 int Pile::pop(){
+    int val = -1;
     if(top = 0){
         top--;
         delete Stack[top];
+        return val;
     }
     else{//Throw stack empty exception
     }
+    return val;
 }

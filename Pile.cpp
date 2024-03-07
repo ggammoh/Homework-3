@@ -27,3 +27,7 @@ int Pile::pop(){
     }
     return val;
 }
+
+int Pile::getNumCardsLeft() {
+    return top;
+}

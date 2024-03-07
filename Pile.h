@@ -15,4 +15,5 @@ class Pile{
         Pile();
         void push(Card *card);
         int pop();
+        int getNumCardsLeft();
 };

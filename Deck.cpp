@@ -29,6 +29,7 @@ int Deck::Pull(){
     delete top;
     top = temp;
     top->next=nullptr;
+    numCards--;
     return val;
 }
 

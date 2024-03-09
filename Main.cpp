@@ -88,7 +88,6 @@ int main(){
             }
             else{
                 cout << "Pile empty... continuing as normal\n";
-
                 handleRound(player, computer, playerCard, computerCard);
             }
             

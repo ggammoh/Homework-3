@@ -1,20 +1,24 @@
-#include "Deck.h"
+#include "Pile.h"
 int main(){
-    Deck myDeck;
-
-    myDeck.Add(1);
-    myDeck.Add(10);
-    myDeck.Add(13);
-    myDeck.Add(2);
-    myDeck.Add(12);
-    myDeck.Add(11);
-    myDeck.Add(5);
-    myDeck.printDeck();
-    std::cout << myDeck.Pull() << std::endl;
-    myDeck.printDeck();
-    std::cout << myDeck.Pull()<< std::endl;
-    myDeck.printDeck();
-    std::cout << myDeck.Pull()<< std::endl;
-    myDeck.printDeck();
+    Pile myPile;
+    Card card1 = Card(1);
+    Card card2 = Card(2);
+    Card card3 = Card(3);
+    Card card4 = Card(4);
+    Card card5 = Card(5);
+    Card card6 = Card(6);
+    myPile.push(&card1);
+    myPile.push(&card2);
+    myPile.push(&card3);
+    myPile.push(&card4);
+    myPile.push(&card5);
+    myPile.push(&card6);
+    myPile.printPile();
+    std::cout << myPile.pop() << std::endl;
+    myPile.printPile();
+    std::cout << myPile.pop()<< std::endl;
+    myPile.printPile();
+    std::cout << myPile.pop()<< std::endl;
+    myPile.pop();
     
  }

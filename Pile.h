@@ -6,7 +6,7 @@ to tell the player how many cards they have left but not the other player
 */
 #pragma once
 #include "Card.h"
-
+#include<iostream>
 class Pile{
     private:
         int top;
@@ -21,7 +21,8 @@ class Pile{
         }
 
         void push(Card *card){
-            if(top <= 5){
+            std::cout << top;
+            if(top < 5){
                 Stack[top] = card;
                 top++;
             }
@@ -31,17 +32,27 @@ class Pile{
 
         int pop(){
             int val = -1;
+            
             if(top > 0){
                 top--;
                 val = Stack[top]->value;
-                delete Stack[top];
+                Stack[top] = NULL;
                 return val;
             }
             else{//Throw stack empty exception
             }
+            return val;
         }
 
         int getNumCardsLeft(){
             return top;
+        }
+
+        void printPile() {
+            std::cout << "Pile Contents: ";
+            for (int i = 0; i < top; ++i) {
+                std::cout << Stack[i]->value << " ";
+            }
+            std::cout << "\n";
         }
 };

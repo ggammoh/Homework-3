@@ -18,6 +18,9 @@ void Deck::Add(int cardNum){
 }
 
 int Deck::Pull(){
+    if(isEmpty()){
+        return -1;
+    }
     int val = top->value;
     Card *temp = bottom;
     while(temp->next->next != nullptr){

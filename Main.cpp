@@ -63,25 +63,33 @@ int main(){
             std::cout << "Computer's card: " << computerCard << std::endl;
             // Determine the winner 
             handleRound(player, computer, playerCard, computerCard);
+
         } else if(playerDecision == 3) { // Grab from stack
             cout << "------------------------------\n";
             pileCard = playerStack.pop();
-            cout << "Your new total is: " << playerCard + pileCard<< endl;
             std::cout << "Computer's card: " << computerCard << std::endl;
+            if (pileCard != -1){
+                cout << "Your new total is: " << playerCard + pileCard<< endl;
 
-            //Special Case of handle round since the player's total is 2 cards
-            if (playerCard+pileCard > computerCard) {
-                std::cout << "Player 1 wins the round!" << std::endl;
-                // Add the cards to the bottom of the player's deck
-                player.Add(playerCard);
-                player.Add(pileCard);
-                player.Add(computerCard);
-            } else {
-                std::cout << "Player 2 wins the round!" << std::endl;
-                // Add the cards to the bottom of the computer's deck
-                computer.Add(playerCard);
-                computer.Add(pileCard);
-                computer.Add(computerCard);
+                //Special Case of handle round since the player's total is 2 cards
+                if (playerCard+pileCard > computerCard) {
+                    std::cout << "Player 1 wins the round!" << std::endl;
+                    // Add the cards to the bottom of the player's deck
+                    player.Add(playerCard);
+                    player.Add(pileCard);
+                    player.Add(computerCard);
+                } else {
+                    std::cout << "Player 2 wins the round!" << std::endl;
+                    // Add the cards to the bottom of the computer's deck
+                    computer.Add(playerCard);
+                    computer.Add(pileCard);
+                    computer.Add(computerCard);
+                }
+            }
+            else{
+                cout << "Pile empty... continuing as normal\n";
+
+                handleRound(player, computer, playerCard, computerCard);
             }
             
         }

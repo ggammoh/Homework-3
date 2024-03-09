@@ -26,8 +26,7 @@ int Pile::pop(){
         front--;
         return val;
     }
-    else{//Throw stack empty exception
-    }
+    else{return -1;} //If Stack is empty
     return val;
 }
 

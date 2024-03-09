@@ -24,7 +24,6 @@ int Deck::Pull(){
         temp = temp->next;
     }
     delete top;
-    top = bottom = nullptr;
     top = temp;
     top->next=nullptr;
     return val;

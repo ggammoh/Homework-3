@@ -1,4 +1,5 @@
-#pragma once
+#ifndef CARD_H
+#define CARD_H
 
 class Card{
     public:
@@ -7,3 +8,4 @@ class Card{
         Card(int cardNum) {value = cardNum; next = nullptr;}
 };
 
+#endif 

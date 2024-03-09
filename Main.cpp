@@ -3,47 +3,89 @@
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
+using namespace std;
 
-void shuffleDeck(Deck p1, Deck p2);
-void drawCards(Deck& playerDeck, Deck& computerDeck, int& playerCard, int& computerCard);
-int compareCards(int playerCard, int computerCard);
-int playRound(Deck& playerDeck, Deck& computerDeck);
+void shuffleDeck(Deck &p1, Deck &p2);
 void handleRound(Deck& playerDeck, Deck& computerDeck, int playerCard, int computerCard);
-void determineWinner(Deck& playerDeck, Deck& computerDeck);
+void determineWinner(Deck playerDeck, Deck computerDeck);
 
 int main(){
     srand(time(0));
+    int numRounds = 999999;
+    int round = 0;
+    char styleChoice;
     Deck player;
+    Pile playerStack;
     Deck computer;
-
     shuffleDeck(player, computer);
-    player.printDeck();
-    computer.printDeck();
 
-    while (!player.isEmpty() && !computer.isEmpty()) {
-        int playerDecision;
-        std::cout << "Player's turn: Do you want to (1) Push or (2) Pull a card? ";
+
+    cout << "\nWould you like to player for a certain number of rounds? (y/n)";
+    cin >> styleChoice;
+    if (styleChoice == 'y'){
+        cout << "How many rounds would you like to play? \n>";
+        cin >> numRounds;
+    }
+
+    
+    while (!player.isEmpty() && !computer.isEmpty() && round < numRounds) {
+        int playerDecision = 0;
+        int playerCard = 0;
+        int computerCard = 0;
+        int pileCard = 0;
+        playerCard = player.Pull();
+
+        cout << "------------------------------\n";
+        std::cout << "Your Card: " << playerCard << "\n";
+        std::cout << "\n1.Play this card \n2.Push to stack \n3.Grab from stack? \n>";
         std::cin >> playerDecision;
+        while(playerDecision != 1 && playerDecision != 2 && playerDecision != 3){
+            std::cout << "Invalid choice! Please choose 1 or 2 or 3.>" << std::endl;
+            std::cin >> playerDecision;
+        }
 
-        if (playerDecision == 1) { // push a card
-            int playerCard = player.Pull();
-            int computerCard = computer.Pull();
+        computerCard = computer.Pull();
+        if (playerDecision == 1) { // Play Card
+            cout << "------------------------------\n";
             std::cout << "Player's card: " << playerCard << std::endl;
             std::cout << "Computer's card: " << computerCard << std::endl;
             // Determine the winner
             handleRound(player, computer, playerCard, computerCard);
-        } else if (playerDecision == 2) { // pull a card
-            int playerCard = player.Pull();
-            std::cout << "Player's card: " << playerCard << std::endl;
+
+        } else if (playerDecision == 2) { // Push to stack
+            cout << "------------------------------\n";
+            cout << "You pushed " << playerCard << endl;
+            playerStack.push(new Card(playerCard));
+            cout << "Size of stack (max 5): " << playerStack.getNumCardsLeft() << endl;
+            playerCard = player.Pull();
+            std::cout << "Player's new card: " << playerCard << std::endl;
             // Draw a card for the computer
-            int computerCard = computer.Pull();
             std::cout << "Computer's card: " << computerCard << std::endl;
             // Determine the winner 
             handleRound(player, computer, playerCard, computerCard);
-        } else {
-            std::cout << "Invalid choice! Please choose 1 or 2." << std::endl;
-            continue;
+        } else if(playerDecision == 3) { // Grab from stack
+            cout << "------------------------------\n";
+            pileCard = playerStack.pop();
+            cout << "Your new total is: " << playerCard + pileCard<< endl;
+            std::cout << "Computer's card: " << computerCard << std::endl;
+
+            //Special Case of handle round since the player's total is 2 cards
+            if (playerCard+pileCard > computerCard) {
+                std::cout << "Player 1 wins the round!" << std::endl;
+                // Add the cards to the bottom of the player's deck
+                player.Add(playerCard);
+                player.Add(pileCard);
+                player.Add(computerCard);
+            } else {
+                std::cout << "Player 2 wins the round!" << std::endl;
+                // Add the cards to the bottom of the computer's deck
+                computer.Add(playerCard);
+                computer.Add(pileCard);
+                computer.Add(computerCard);
+            }
+            
         }
+        round++;
     }
 
     determineWinner(player, computer);
@@ -51,70 +93,45 @@ int main(){
     return 0;
 }
 
-void shuffleDeck(Deck p1, Deck p2){
+void shuffleDeck(Deck &p1, Deck &p2){
     int cards[] = {4,4,4,4,4,4,4,4,4,4,4,4,4};
     int index = 0;
-    for (int i = 0; i < 31;){
+    for (int i = 0; i < 26;){
         index = rand() % 13 + 1;
-        if (cards[index] != 0){
-            p1.Add(cards[index]);
+        if (cards[index-1] != 0){
+            if(index == 1){
+                p1.Add(index + 14); //Make it so aces have the highest value
+            }
+            else{p1.Add(index);}
+            cards[index-1]--;
             i++;
         }
     }
-    for (int i = 0; i < 31;){
+    for (int i = 0; i < 26;){
         index = rand() % 13 + 1;
-        if (cards[index] != 0){
-            p2.Add(cards[index]);
+        if (cards[index-1] != 0){
+            if(index == 1){
+                p2.Add(index + 14); //Make it so aces have the highest value
+            }
+            else{p2.Add(index);}
+            cards[index-1]--;
             i++;
         }
     }
-}
-
-
-void drawCards(Deck& p1, Deck& p2, int& p1Card, int& p2Card) {
-    p1Card = p1.Pull();
-    p2Card = p2.Pull();
-}
-
-int compareCards(int p1Card, int p2Card) {
-    if (p1Card == p2Card) {
-        return 0; // Tie
-    } else {
-        return p1Card > p2Card ? 1 : -1;
-    }
-}
-
-int playRound(Deck& p1, Deck& p2) {
-    int p1Card, p2Card;
-    drawCards(p1, p2, p1Card, p2Card);
-    return compareCards(p1Card, p2Card);
 }
 
 void handleRound(Deck& player, Deck& computer, int playerCard, int computerCard) {
     int playerTotal = playerCard;
     int computerTotal = computerCard;
 
-    // Check if the player has more than one card in their deck
-    if (!player.isEmpty()) {
-        std::cout << "Do you want to pull another card? (1) Yes or (2) No: ";
-        int pullDecision;
-        std::cin >> pullDecision;
-
-        if (pullDecision == 1) { // Player chooses to pull another card
-            int additionalCard = player.Pull();
-            std::cout << "Player's additional card: " << additionalCard << std::endl;
-            playerTotal += additionalCard;
-        }
-    }
-
     // Determine the winner of the round
     if (playerTotal > computerTotal) {
-        std::cout << "Player 1 wins the round!" << std::endl;
+        std::cout << "########## Player 1 wins the round! ##########" << std::endl;
         // Add the cards to the bottom of the player's deck
         player.Add(playerCard);
         player.Add(computerCard);
     } else {
-        std::cout << "Player 2 wins the round!" << std::endl;
+        std::cout << "########## Player 2 wins the round! ##########" << std::endl;
         // Add the cards to the bottom of the computer's deck
         computer.Add(playerCard);
         computer.Add(computerCard);
@@ -122,12 +139,14 @@ void handleRound(Deck& player, Deck& computer, int playerCard, int computerCard)
 }
 
 // Determine the winner of the game
-void determineWinner(Deck& player, Deck& computer) {
-    if (player.isEmpty() && computer.isEmpty()) {
+void determineWinner(Deck player, Deck computer) {
+    cout << "------------------------------\n";
+    if (player.getNumCards() == computer.getNumCards()) {
         std::cout << "The game ends in a tie!" << std::endl;
-    } else if (player.isEmpty()) {
+    } else if (player.getNumCards() < computer.getNumCards()) {
         std::cout << "Player 2 wins the game!" << std::endl;
     } else {
         std::cout << "Player 1 wins the game!" << std::endl;
     }
+    cout << "------------------------------\n";
 }

@@ -1,5 +1,5 @@
-#include "Deck.cpp"
-#include "Pile.cpp"
+#include "Deck.h"
+#include "Pile.h"
 #include <iostream>
 #include <cstdlib>
 #include <ctime>

@@ -12,8 +12,36 @@ class Pile{
         int top;
         Card *Stack[5];
     public:
-        Pile();
-        void push(Card *card);
-        int pop();
-        int getNumCardsLeft();
+    
+        Pile(){
+            top = 0;
+            for (int i = 0; i < 5; i++){
+                Stack[i] = nullptr;
+            }
+        }
+
+        void push(Card *card){
+            if(top != 5){
+                Stack[top] = card;
+                top++;
+            }
+            else{//Throw stack full exception
+            }
+        }
+
+        int pop(){
+            int val = -1;
+            if(top = 0){
+                top--;
+                delete Stack[top];
+                return val;
+            }
+            else{//Throw stack empty exception
+            }
+            return val;
+        }
+
+        int getNumCardsLeft(){
+            return top;
+        }
 };

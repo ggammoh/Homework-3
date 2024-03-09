@@ -20,12 +20,13 @@ int main(){
     shuffleDeck(player, computer);
 
 
-    cout << "\nWould you like to player for a certain number of rounds? (y/n)";
+    cout << "\nWould you like to play for a certain number of rounds? (y/n)";
     cin >> styleChoice;
     if (styleChoice == 'y'){
         cout << "How many rounds would you like to play? \n>";
         cin >> numRounds;
     }
+    else return -1;
 
     
     while (!player.isEmpty() && !computer.isEmpty() && round < numRounds) {
@@ -34,6 +35,9 @@ int main(){
         int computerCard = 0;
         int pileCard = 0;
         playerCard = player.Pull();
+
+        std::cout << "The number of cards in Player's deck is: " << player.getNumCards() << "\n";
+        std::cout << "The number of cards in Computer's deck is: " << computer.getNumCards() << "\n";
 
         cout << "------------------------------\n";
         std::cout << "Your Card: " << playerCard << "\n";
@@ -73,13 +77,13 @@ int main(){
 
                 //Special Case of handle round since the player's total is 2 cards
                 if (playerCard+pileCard > computerCard) {
-                    std::cout << "Player 1 wins the round!" << std::endl;
+                    std::cout << "Player wins the round!" << std::endl;
                     // Add the cards to the bottom of the player's deck
                     player.Add(playerCard);
                     player.Add(pileCard);
                     player.Add(computerCard);
                 } else {
-                    std::cout << "Player 2 wins the round!" << std::endl;
+                    std::cout << "Computer wins the round!" << std::endl;
                     // Add the cards to the bottom of the computer's deck
                     computer.Add(playerCard);
                     computer.Add(pileCard);
@@ -136,11 +140,15 @@ void handleRound(Deck& player, Deck& computer, int playerCard, int computerCard)
     if (playerTotal > computerTotal) {
         std::cout << "########## Player 1 wins the round! ##########" << std::endl;
         // Add the cards to the bottom of the player's deck
+        player.Pull();
+        computer.Pull();
         player.Add(playerCard);
         player.Add(computerCard);
     } else {
         std::cout << "########## Player 2 wins the round! ##########" << std::endl;
         // Add the cards to the bottom of the computer's deck
+        player.Pull();
+        computer.Pull();
         computer.Add(playerCard);
         computer.Add(computerCard);
     }

@@ -7,7 +7,7 @@ to tell the player how many cards they have left but not the other player
 #ifndef PILE_H
 #define PILE_H
 #include "Card.h"
-
+#include<iostream>
 class Pile{
     private:
         int front;
